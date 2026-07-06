@@ -213,6 +213,15 @@
     color:var(--ink-faint);margin-top:.6rem;text-align:center;
   }
 
+  #backBtn{
+    display:none;align-items:center;gap:.4rem;
+    font-family:'Segoe UI',system-ui,sans-serif;font-size:.8rem;font-weight:600;
+    border:1px solid var(--line);color:var(--ocean);background:var(--plate);
+    border-radius:999px;padding:.4rem 1rem;cursor:pointer;margin:0 0 1.1rem;
+  }
+  #backBtn:hover{border-color:var(--ocean)}
+  #backBtn:focus-visible{outline:2px solid var(--signal);outline-offset:1px}
+
   .pager{
     display:flex;justify-content:space-between;gap:1rem;
     margin-top:2.5rem;border-top:1px solid var(--line);padding-top:1rem;
@@ -254,17 +263,36 @@
     color:var(--ink-soft);font-size:.93rem;
   }
 
-  /* ---------- install button ---------- */
+  /* ---------- header controls ---------- */
   header{position:relative}
-  #installBtn{
+  .hctl{
     position:absolute;top:1.35rem;right:1.6rem;
-    font-family:'Segoe UI',system-ui,sans-serif;font-size:.78rem;font-weight:600;
+    display:flex;align-items:center;gap:.6rem;
+  }
+  #installBtn{
+    font-family:'Segoe UI',system-ui,sans-serif;font-size:13px;font-weight:600;
     border:1px solid var(--ocean);color:var(--ocean);background:var(--plate);
-    border-radius:999px;padding:.4rem 1rem;cursor:pointer;
+    border-radius:999px;padding:.35rem .9rem;cursor:pointer;
   }
   #installBtn:hover{background:var(--ocean);color:#fff}
   #installBtn[hidden]{display:none}
-  @media (max-width:640px){#installBtn{position:static;margin-top:.6rem}}
+  .fs{
+    display:inline-flex;align-items:baseline;
+    border:1px solid var(--line);border-radius:999px;
+    background:var(--plate);padding:2px 4px;
+  }
+  .fs button{
+    border:0;background:none;cursor:pointer;line-height:1;
+    font-family:Georgia,serif;color:var(--ink-faint);
+    padding:3px 8px;border-radius:999px;
+  }
+  .fs button:nth-child(1){font-size:12px}
+  .fs button:nth-child(2){font-size:15px}
+  .fs button:nth-child(3){font-size:19px}
+  .fs button:hover{color:var(--ink)}
+  .fs button.on{color:var(--ocean);font-weight:700}
+  .fs button:focus-visible{outline:2px solid var(--signal);outline-offset:1px}
+  @media (max-width:640px){.hctl{position:static;margin-top:.7rem;justify-content:flex-start}}
 
   /* svg tokens */
   .sv-sea{fill:var(--ocean-soft)}
@@ -282,10 +310,11 @@
 
   @media (max-width:760px){
     .shell{flex-direction:column}
-    nav{flex:none;border-right:0;border-bottom:1px solid var(--line);
-      display:flex;flex-wrap:wrap;gap:.1rem;padding:.6rem}
-    .navgrp{width:100%;margin:.4rem 0 .1rem .3rem}
-    nav button{width:auto}
+    nav{flex:none;border-right:0;border-bottom:0;padding:.6rem .9rem 1.4rem}
+    .navgrp{margin:.7rem 0 .2rem .4rem}
+    body:not(.reading) main{display:none}
+    body.reading nav{display:none}
+    body.reading #backBtn{display:inline-flex}
   }
 </style>
 
@@ -293,12 +322,20 @@
   <div class="kicker">Course Companion · For the Instructor</div>
   <h1>The Revenge of Geography</h1>
   <p class="sub">Robert D. Kaplan (2012) — main points, maps, and seminar questions, chapter by chapter</p>
-  <button id="installBtn" type="button" hidden>Install app</button>
+  <div class="hctl ui">
+    <span class="fs" role="group" aria-label="Text size">
+      <button type="button" data-fs="16" class="on" aria-label="Normal text size">A</button>
+      <button type="button" data-fs="19" aria-label="Large text size">A</button>
+      <button type="button" data-fs="22" aria-label="Extra large text size">A</button>
+    </span>
+    <button id="installBtn" type="button" hidden>Install app</button>
+  </div>
 </header>
 
 <div class="shell">
 <nav id="nav" aria-label="Chapters"></nav>
 <main><div class="plate" id="plate">
+<button id="backBtn" type="button">&#8592; All chapters</button>
 
 <!-- ================= START HERE ================= -->
 <section data-t="Start Here" data-g="Orientation">
@@ -1055,9 +1092,26 @@
     var m=t.match(/^([IVX]+)\s*·\s*(.*)$/);
     if(m){b.innerHTML='<span class="rn">'+m[1]+'</span><span>'+m[2]+'</span>';}
     else{b.innerHTML='<span>'+t+'</span>';}
-    b.addEventListener('click',function(){go(i);});
+    b.addEventListener('click',function(){openChapter(i);});
     nav.appendChild(b);btns.push(b);
   });
+  var back=document.getElementById('backBtn');
+  function openChapter(i){
+    go(i);
+    if(!document.body.classList.contains('reading')){
+      document.body.classList.add('reading');
+      try{history.pushState({ch:i},'');}catch(e){}
+    }
+  }
+  function closeChapter(){
+    document.body.classList.remove('reading');
+    window.scrollTo({top:0,behavior:'auto'});
+  }
+  back.addEventListener('click',function(){
+    if(history.state&&history.state.ch!=null){history.back();}
+    else{closeChapter();}
+  });
+  window.addEventListener('popstate',function(){closeChapter();});
   var prev=document.getElementById('prev'),next=document.getElementById('next');
   var prevT=document.getElementById('prevT'),nextT=document.getElementById('nextT');
   function go(i){
@@ -1105,6 +1159,19 @@
     }
   });
   window.addEventListener('appinstalled',function(){deferred=null;btn.hidden=true;});
+
+  var fsBtns=[].slice.call(document.querySelectorAll('.fs button'));
+  function setFS(px,save){
+    document.documentElement.style.fontSize=px+'px';
+    fsBtns.forEach(function(b){b.classList.toggle('on',b.getAttribute('data-fs')===String(px));});
+    if(save){try{localStorage.setItem('rog-fontsize',px);}catch(e){}}
+  }
+  var savedFS=null;
+  try{savedFS=localStorage.getItem('rog-fontsize');}catch(e){}
+  if(savedFS)setFS(parseInt(savedFS,10),false);
+  fsBtns.forEach(function(b){
+    b.addEventListener('click',function(){setFS(parseInt(b.getAttribute('data-fs'),10),true);});
+  });
 })();
 </script>
 
