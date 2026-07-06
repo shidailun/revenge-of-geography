@@ -1,0 +1,1111 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teaching The Revenge of Geography</title>
+<meta name="theme-color" content="#24586E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Revenge of Geography">
+<style>
+  :root{
+    --paper:#EFF2EE;
+    --plate:#FAFBF8;
+    --ink:#1B2E39;
+    --ink-soft:#4A5E68;
+    --ink-faint:#7C8B92;
+    --ocean:#24586E;
+    --ocean-soft:#D8E4E8;
+    --land:#B99F6A;
+    --land-soft:#E9E1CC;
+    --signal:#A63A2B;
+    --line:#C4CFCB;
+    --line-soft:#DDE4DF;
+    --shadow:0 1px 3px rgba(27,46,57,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper:#0E1B23;
+      --plate:#15242E;
+      --ink:#E3EAE7;
+      --ink-soft:#A9BAC0;
+      --ink-faint:#71858E;
+      --ocean:#7FB4C9;
+      --ocean-soft:#1D3542;
+      --land:#C4A96F;
+      --land-soft:#2E2E1F;
+      --signal:#D96C57;
+      --line:#2C4250;
+      --line-soft:#22343F;
+      --shadow:0 1px 3px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0E1B23;
+    --plate:#15242E;
+    --ink:#E3EAE7;
+    --ink-soft:#A9BAC0;
+    --ink-faint:#71858E;
+    --ocean:#7FB4C9;
+    --ocean-soft:#1D3542;
+    --land:#C4A96F;
+    --land-soft:#2E2E1F;
+    --signal:#D96C57;
+    --line:#2C4250;
+    --line-soft:#22343F;
+    --shadow:0 1px 3px rgba(0,0,0,.4);
+  }
+  :root[data-theme="light"]{
+    --paper:#EFF2EE;
+    --plate:#FAFBF8;
+    --ink:#1B2E39;
+    --ink-soft:#4A5E68;
+    --ink-faint:#7C8B92;
+    --ocean:#24586E;
+    --ocean-soft:#D8E4E8;
+    --land:#B99F6A;
+    --land-soft:#E9E1CC;
+    --signal:#A63A2B;
+    --line:#C4CFCB;
+    --line-soft:#DDE4DF;
+    --shadow:0 1px 3px rgba(27,46,57,.08);
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:Georgia,'Palatino Linotype',serif;
+    line-height:1.55;
+  }
+  .ui{font-family:'Segoe UI',system-ui,sans-serif}
+
+  /* ---------- header ---------- */
+  header{
+    border-bottom:2px solid var(--ink);
+    padding:1.4rem 1.6rem 1.1rem;
+    background:var(--plate);
+  }
+  .kicker{
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--signal);font-weight:600;
+  }
+  header h1{
+    margin:.25rem 0 .1rem;
+    font-size:clamp(1.3rem,3.2vw,1.9rem);
+    font-weight:normal;
+    font-variant:small-caps;
+    letter-spacing:.04em;
+    text-wrap:balance;
+  }
+  header .sub{color:var(--ink-soft);font-size:.92rem;font-style:italic;margin:0}
+
+  /* ---------- shell ---------- */
+  .shell{display:flex;min-height:calc(100vh - 90px)}
+  nav{
+    flex:0 0 250px;
+    border-right:1px solid var(--line);
+    padding:1rem .9rem 2rem;
+    background:var(--paper);
+  }
+  .navgrp{
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-faint);margin:1.1rem 0 .35rem .4rem;font-weight:600;
+  }
+  .navgrp:first-child{margin-top:.2rem}
+  nav button{
+    display:flex;align-items:baseline;gap:.5rem;width:100%;
+    text-align:left;border:0;background:none;cursor:pointer;
+    padding:.34rem .5rem;border-radius:3px;
+    font-family:'Segoe UI',system-ui,sans-serif;font-size:.83rem;
+    color:var(--ink-soft);
+  }
+  nav button .rn{
+    font-variant-numeric:tabular-nums;
+    color:var(--ink-faint);font-size:.7rem;min-width:1.5em;
+  }
+  nav button:hover{background:var(--ocean-soft);color:var(--ink)}
+  nav button.on{background:var(--ocean);color:#fff}
+  nav button.on .rn{color:rgba(255,255,255,.7)}
+  nav button:focus-visible{outline:2px solid var(--signal);outline-offset:1px}
+
+  /* ---------- main plate ---------- */
+  main{flex:1;min-width:0;padding:1.6rem clamp(1rem,4vw,3rem) 3rem}
+  .plate{max-width:46rem;margin:0 auto}
+  section{display:none}
+  section.on{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){
+    section.on{animation:none}
+  }
+
+  .eyebrow{
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--signal);font-weight:600;margin:0 0 .3rem;
+  }
+  h2{
+    font-weight:normal;font-variant:small-caps;letter-spacing:.03em;
+    font-size:clamp(1.35rem,3vw,1.75rem);margin:0 0 .2rem;text-wrap:balance;
+  }
+  .lede{font-style:italic;color:var(--ink-soft);margin:0 0 1.3rem;font-size:1.02rem;max-width:38rem}
+
+  h3{
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:600;
+    border-bottom:1px solid var(--line);padding-bottom:.3rem;
+    margin:1.8rem 0 .7rem;
+  }
+  p{max-width:40rem}
+  ul.points{margin:.4rem 0;padding-left:1.1rem;max-width:40rem}
+  ul.points li{margin:.5rem 0}
+  ul.points li::marker{color:var(--signal)}
+
+  .quote{
+    border-left:3px solid var(--land);
+    margin:1.2rem 0;padding:.5rem 1rem;
+    font-style:italic;color:var(--ink-soft);
+    background:var(--plate);max-width:38rem;
+  }
+  .quote .who{
+    display:block;font-style:normal;font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:.72rem;letter-spacing:.08em;color:var(--ink-faint);margin-top:.35rem;
+  }
+
+  ol.qs{margin:.4rem 0;padding-left:1.3rem;max-width:40rem}
+  ol.qs li{margin:.65rem 0}
+  ol.qs li::marker{font-family:'Segoe UI',system-ui,sans-serif;font-size:.8rem;color:var(--ocean);font-weight:700}
+
+  .tip{
+    background:var(--ocean-soft);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:.85rem 1.1rem;margin:1.4rem 0 0;
+    max-width:40rem;
+  }
+  .tip .tl{
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--ocean);font-weight:700;display:block;margin-bottom:.3rem;
+  }
+  .tip p{margin:.3rem 0}
+
+  .terms{display:flex;flex-wrap:wrap;gap:.4rem;margin:.5rem 0}
+  .terms span{
+    font-family:'Segoe UI',system-ui,sans-serif;font-size:.74rem;
+    border:1px solid var(--line);border-radius:999px;
+    padding:.15rem .65rem;color:var(--ink-soft);background:var(--plate);
+  }
+
+  figure{
+    margin:1.4rem 0;padding:1rem;background:var(--plate);
+    border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow);
+    overflow-x:auto;
+  }
+  figure svg{display:block;max-width:100%;height:auto;margin:0 auto}
+  figcaption{
+    font-family:'Segoe UI',system-ui,sans-serif;font-size:.76rem;
+    color:var(--ink-faint);margin-top:.6rem;text-align:center;
+  }
+
+  .pager{
+    display:flex;justify-content:space-between;gap:1rem;
+    margin-top:2.5rem;border-top:1px solid var(--line);padding-top:1rem;
+  }
+  .pager button{
+    font-family:'Segoe UI',system-ui,sans-serif;font-size:.82rem;
+    border:1px solid var(--line);background:var(--plate);color:var(--ink-soft);
+    padding:.45rem .9rem;border-radius:3px;cursor:pointer;max-width:48%;
+    text-align:left;
+  }
+  .pager button:last-child{text-align:right}
+  .pager button:hover{border-color:var(--ocean);color:var(--ink)}
+  .pager button:focus-visible{outline:2px solid var(--signal);outline-offset:1px}
+  .pager .dir{display:block;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+
+  table{border-collapse:collapse;width:100%;font-size:.88rem;margin:.6rem 0}
+  th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+  th{font-family:'Segoe UI',system-ui,sans-serif;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);background:var(--plate)}
+  td:first-child{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .tblwrap{overflow-x:auto}
+
+  /* ---------- proposed answers ---------- */
+  .ans{margin:.5rem 0 .25rem}
+  .ans summary{
+    display:inline-flex;align-items:center;gap:.45rem;cursor:pointer;list-style:none;
+    font-family:'Segoe UI',system-ui,sans-serif;font-size:.68rem;letter-spacing:.12em;
+    text-transform:uppercase;font-weight:600;color:var(--ocean);
+    border:1px solid var(--line);border-radius:999px;padding:.2rem .75rem;
+    background:var(--plate);user-select:none;
+  }
+  .ans summary::-webkit-details-marker{display:none}
+  .ans summary::before{content:'+';font-weight:700;font-size:.85rem;line-height:1}
+  .ans[open] summary::before{content:'–'}
+  .ans summary:hover{border-color:var(--ocean)}
+  .ans summary:focus-visible{outline:2px solid var(--signal);outline-offset:1px}
+  .ans p{
+    margin:.55rem 0 .2rem;padding:.6rem .9rem;
+    border-left:3px solid var(--ocean);background:var(--plate);
+    color:var(--ink-soft);font-size:.93rem;
+  }
+
+  /* ---------- install button ---------- */
+  header{position:relative}
+  #installBtn{
+    position:absolute;top:1.35rem;right:1.6rem;
+    font-family:'Segoe UI',system-ui,sans-serif;font-size:.78rem;font-weight:600;
+    border:1px solid var(--ocean);color:var(--ocean);background:var(--plate);
+    border-radius:999px;padding:.4rem 1rem;cursor:pointer;
+  }
+  #installBtn:hover{background:var(--ocean);color:#fff}
+  #installBtn[hidden]{display:none}
+  @media (max-width:640px){#installBtn{position:static;margin-top:.6rem}}
+
+  /* svg tokens */
+  .sv-sea{fill:var(--ocean-soft)}
+  .sv-land{fill:var(--land-soft);stroke:var(--land);stroke-width:1.2}
+  .sv-zone{fill:var(--ocean);opacity:.28}
+  .sv-hot{fill:none;stroke:var(--signal);stroke-width:2.4}
+  .sv-hotf{fill:var(--signal)}
+  .sv-lbl{font-family:'Segoe UI',system-ui,sans-serif;font-size:11px;fill:var(--ink-soft)}
+  .sv-lbl2{font-family:'Segoe UI',system-ui,sans-serif;font-size:10px;fill:var(--ink-faint);font-style:italic}
+  .sv-big{font-family:Georgia,serif;font-size:13px;fill:var(--ink);font-variant:small-caps;letter-spacing:.05em}
+  .sv-dash{fill:none;stroke:var(--ocean);stroke-width:1.6;stroke-dasharray:5 4}
+  .sv-thin{fill:none;stroke:var(--line);stroke-width:1}
+  .sv-grat{fill:none;stroke:var(--ocean);stroke-width:.8;opacity:.22}
+  .sv-coast{fill:none;stroke:var(--ocean);stroke-width:7;opacity:.18;stroke-linejoin:round}
+
+  @media (max-width:760px){
+    .shell{flex-direction:column}
+    nav{flex:none;border-right:0;border-bottom:1px solid var(--line);
+      display:flex;flex-wrap:wrap;gap:.1rem;padding:.6rem}
+    .navgrp{width:100%;margin:.4rem 0 .1rem .3rem}
+    nav button{width:auto}
+  }
+</style>
+
+<header>
+  <div class="kicker">Course Companion · For the Instructor</div>
+  <h1>The Revenge of Geography</h1>
+  <p class="sub">Robert D. Kaplan (2012) — main points, maps, and seminar questions, chapter by chapter</p>
+  <button id="installBtn" type="button" hidden>Install app</button>
+</header>
+
+<div class="shell">
+<nav id="nav" aria-label="Chapters"></nav>
+<main><div class="plate" id="plate">
+
+<!-- ================= START HERE ================= -->
+<section data-t="Start Here" data-g="Orientation">
+  <p class="eyebrow">Orientation</p>
+  <h2>How to Use This Companion</h2>
+  <p class="lede">One plate per chapter: the argument in a few points, a schematic map where the idea is spatial, seminar questions, and a note on teaching it.</p>
+
+  <h3>The Book in One Paragraph</h3>
+  <p>Kaplan's thesis is that geography — terrain, climate, position, access to the sea — remains the deepest force shaping international politics, even in an age of jets, missiles, and the internet. Part I recovers the classical geopolitical thinkers (Mackinder, Mahan, Spykman); Part II applies their maps to Europe, Russia, China, India, Iran, and the former Ottoman lands; Part III turns the lens on the United States and argues, provocatively, that Mexico matters more to America's future than the Middle East.</p>
+
+  <h3>The Spine of a Course</h3>
+  <ul class="points">
+    <li><strong>One recurring debate:</strong> is Kaplan a geographic <em>determinist</em>, or does geography merely set the stage? He calls his own position "partial determinism." Return to this question every single week — it keeps students arguing <em>with</em> the book instead of just absorbing it.</li>
+    <li><strong>One recurring exercise:</strong> the book is about maps, so make students draw them. A five-minute blank-map sketch at the start of each regional week (Part II) does more pedagogically than any slide.</li>
+    <li><strong>One recurring test:</strong> the book was published in 2012. Every regional chapter can now be graded against reality — Ukraine 2022, the South China Sea, the Belt and Road, the post-2023 Middle East. "Was Kaplan right?" is your built-in assessment engine.</li>
+  </ul>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>Don't teach the book as truth; teach it as a <em>strong claim</em>. Kaplan is a journalist synthesizing scholars, and critics have accused him of determinism and cherry-picking. Students learn more from testing his argument than from memorizing it — the Pedagogy plate at the end of this companion turns that into a syllabus.</p>
+  </div>
+</section>
+
+<!-- ================= PREFACE ================= -->
+<section data-t="Preface: Frontiers" data-g="Orientation">
+  <p class="eyebrow">Preface</p>
+  <h2>Frontiers</h2>
+  <p class="lede">Kaplan opens with his decades as a foreign correspondent: what you learn by crossing borders on the ground that you cannot learn from thirty thousand feet.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Landscape is where analysis should <em>begin</em>: relief, rivers, distance, and borders quietly organize what is politically possible in a place.</li>
+    <li>The 1990s–2000s fashion for declaring geography dead ("the world is flat") mistook faster communication for the abolition of terrain.</li>
+    <li>The book's method: recover older geographical thinkers who are unfashionable precisely because they were right about limits.</li>
+  </ul>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Think of a border you have personally crossed. What changed on the other side, and how much of that change can be traced to geography?
+      <details class="ans"><summary>Proposed answer</summary><p>There is no single right answer — the value is the sorting exercise. Take Lo Wu between Hong Kong and Shenzhen: language, currency, signage, and policing all change, yet the terrain is continuous, so most of the difference is institutional; geography explains only why the line sits where it does (a river, a lease boundary). Contrast a Pyrenees or Himalayan crossing, where human life changes <em>with</em> the terrain. The distinction to draw out: geography usually explains a border's location and enforceability; institutions explain most of what actually differs across it.</p></details></li>
+    <li>What does Kaplan mean by calling geography "unfashionable"? Why might intellectuals resist geographic explanations?
+      <details class="ans"><summary>Proposed answer</summary><p>Two reinforcing reasons. Historically, geopolitics was tainted by its Nazi misuse (see Ch. V) and quietly dropped from Western curricula after 1945. Intellectually, geographic explanation feels like determinism: it demotes ideas, institutions, and moral choice — the very things intellectuals trade in — and it sits uncomfortably close to older, discredited claims about climate and national character. Add comfort: ignoring terrain is a luxury of people whose terrain is safe. "Unfashionable" thus means suppressed for good reasons (ethics) and bad ones (wishful universalism) at once.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>A good first-day icebreaker: project a physical (relief) map of your region with all political borders removed and ask students to guess where the borders "should" go. Their reasoning previews the whole course.</p>
+  </div>
+</section>
+
+<!-- ================= CH 1 ================= -->
+<section data-t="I · From Bosnia to Baghdad" data-g="Part I · Visionaries">
+  <p class="eyebrow">Part I · Visionaries · Chapter I</p>
+  <h2>From Bosnia to Baghdad</h2>
+  <p class="lede">How the easy victories of the 1990s bred the hubris of Iraq — and why elite opinion swings on a pendulum between idealism and realism.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Successful interventions in Bosnia (1995) and Kosovo (1999) convinced Western elites that air power and good intentions could override terrain and history.</li>
+    <li>Iraq was the correction: Mesopotamia's sectarian and tribal geography devoured a plan drawn up as if the country were a blank slate.</li>
+    <li>Foreign-policy thinking cycles between two analogies — <strong>Munich</strong> (appeasement is the danger; intervene) and <strong>Vietnam</strong> (overreach is the danger; restrain). Each generation over-learns the last lesson.</li>
+    <li>Kaplan is candid that he himself supported the Iraq War — the book is partly an act of self-correction.</li>
+  </ul>
+
+  <div class="quote">"Geography is the preface to the very track of human events."<span class="who">— the chapter's working premise, setting up the book</span></div>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>Munich analogy</span><span>Vietnam analogy</span><span>idealism vs. realism</span><span>Isaiah Berlin</span><span>hubris–nemesis cycle</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Why did Bosnia "work" and Iraq fail? How much of the difference is geographic (distance, terrain, neighbors) rather than political?
+      <details class="ans"><summary>Proposed answer</summary><p>Geography did real work: Bosnia is small, close to NATO logistics, and ringed by states that wanted the war contained; Iraq is vast, distant, wedged between Iran and Syria — neighbors with every incentive to spoil — atop sectarian and tribal human geography. But the goals differed too: Bosnia asked force to freeze a war between exhausted parties; Iraq asked it to conjure a new state from scratch. The synthesis: geography set the <em>price</em> of each project, politics chose the project — Iraq failed because the chosen goal ignored the terrain's price.</p></details></li>
+    <li>Which analogy — Munich or Vietnam — dominates public debate in your country today? What event installed it?
+      <details class="ans"><summary>Proposed answer</summary><p>Model rather than prescribe: in the U.S., Iraq installed the Vietnam analogy for a decade, until 2014 and 2022 revived Munich over Ukraine and Taiwan; in Beijing, the "century of humiliation" functions as a Munich of its own — never again weakness. The teaching point is that analogies are installed by generational trauma, not by evidence, and each over-corrects the last. Require students to name the installing event before they name the analogy — that is where the discussion becomes self-aware.</p></details></li>
+    <li>Does Kaplan's confession about Iraq strengthen or weaken his authority as a guide?
+      <details class="ans"><summary>Proposed answer</summary><p>Both, and that is the discussion. Strengthens: it shows the book is an act of self-correction, not punditry — he tested idealism against Mesopotamia and reports the result. Weakens: it reveals him as a rider on the very pendulum he describes; having over-learned Munich, he may now be over-learning Vietnam, and his restraint deserves the scrutiny his interventionism lacked. The mature reading: treat him as a participant-witness whose confession is <em>data</em> about how elites learn, not a certificate of reliability.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>Run this as a structured debate: half the class must argue the interventionist (Munich) case for a current crisis, half the restraint (Vietnam) case. Assign sides <em>against</em> students' instincts.</p>
+  </div>
+</section>
+
+<!-- ================= CH 2 ================= -->
+<section data-t="II · The Revenge of Geography" data-g="Part I · Visionaries">
+  <p class="eyebrow">Part I · Visionaries · Chapter II</p>
+  <h2>The Revenge of Geography</h2>
+  <p class="lede">The title chapter: a defense of realism, and of geography as the starting point — but not the end point — of analysis.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Realism (Morgenthau, Aron) begins with the world as it is: states pursuing interest under constraint. Geography is the most permanent of those constraints.</li>
+    <li>Kaplan's stance is <strong>"partial determinism"</strong>: geography inclines, it does not command. Ideas, leaders, and technology matter — but they operate on a stage they did not choose.</li>
+    <li>The rebuttal to "the world is flat": communication has compressed distance, but that makes the map <em>more</em> claustrophobic and contested, not irrelevant.</li>
+    <li>To ignore geography is a luxury of the comfortable; people who live on dangerous terrain do not have that luxury.</li>
+  </ul>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>partial determinism</span><span>possibilism</span><span>Hans Morgenthau</span><span>Raymond Aron</span><span>realism</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>State the strongest version of the anti-Kaplan case: what phenomena in world politics does geography clearly <em>fail</em> to explain?
+      <details class="ans"><summary>Proposed answer</summary><p>The strongest case lists variation terrain cannot touch: North vs. South Korea, the two Germanys, Haiti vs. the Dominican Republic — identical or shared geography, radically different outcomes, so institutions and ideology must be doing the work. Add rapid change over constant terrain (Japan 1930 vs. 1960; Europe 1940 vs. 2000) and placeless power — finance, ideology, cyberspace. Geography is strongest on what is <em>hard</em> for a state (invasion routes, chokepoints, resources) and weakest on what a state <em>becomes</em>.</p></details></li>
+    <li>Is "partial determinism" a coherent position, or a way of never being wrong? How would you test it?
+      <details class="ans"><summary>Proposed answer</summary><p>Coherent if stated as probability, not fate: geography as a loaded die — landlocked poverty penalties, flat-frontier insecurity — regularities that hold on average and can be beaten by agency at a cost. It becomes unfalsifiable when deployed post hoc: terrain wins, determinism confirmed; terrain loses, "well, it was only partial." The test to demand: does the claim generate predictions <em>before</em> the fact, with stated confidence? Week 8 (Ukraine) is where the class should apply exactly this standard.</p></details></li>
+    <li>Berlin warned that determinism erodes moral responsibility. If geography is destiny, can statesmen be blamed for anything?
+      <details class="ans"><summary>Proposed answer</summary><p>Only <em>full</em> determinism dissolves blame, and Kaplan disclaims it. Partial determinism leaves a menu: geography may explain Russia's obsession with buffers, but invading, negotiating, and trading were all available responses to the same map. Blame attaches to the choice among the options terrain leaves open. Establish the distinction here — explanation identifies pressures, justification endorses responses — because it returns in Chapter X, where it stops being abstract.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>This is the theoretical heart of the course — slow down here. Have students write one paragraph placing themselves on a determinism spectrum (0 = geography irrelevant, 10 = geography is fate), then re-collect the same paragraph in the final week and let them see their own drift.</p>
+  </div>
+</section>
+
+<!-- ================= CH 3 ================= -->
+<section data-t="III · Herodotus &amp; Successors" data-g="Part I · Visionaries">
+  <p class="eyebrow">Part I · Visionaries · Chapter III</p>
+  <h2>Herodotus and His Successors</h2>
+  <p class="lede">The oldest tradition of thinking about geography and politics — from Herodotus through Ibn Khaldun to the great mid-century historians McNeill and Hodgson.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Herodotus is the model: he took landscape and climate seriously as shapers of culture, yet gave full weight to human passion and choice — partial determinism before the term existed.</li>
+    <li>William H. McNeill's <em>The Rise of the West</em> shows civilizations as porous, formed by contact and diffusion across Eurasia's connective geography.</li>
+    <li>Marshall Hodgson locates Islamic civilization in the arid "Oikoumene" belt from North Africa to Central Asia — ecology shaping faith and empire.</li>
+    <li>Ibn Khaldun's cycle: hardy peoples from marginal lands conquer soft sedentary cores, then soften in turn — an early geographic theory of political decay.</li>
+  </ul>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>Herodotus</span><span>Oikoumene</span><span>Ibn Khaldun</span><span>asabiyyah</span><span>W. H. McNeill</span><span>Marshall Hodgson</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Why does Kaplan reach back 2,500 years for his model analyst instead of citing a modern political scientist?
+      <details class="ans"><summary>Proposed answer</summary><p>Partly method, partly rhetoric. Method: Herodotus practices exactly the blend Kaplan wants — terrain and climate taken seriously, but full weight given to passion, accident, and choice; modern political science, chasing law-like generality, largely purged both geography and narrative. Rhetoric: citing a source 2,500 years old asserts that geography's claims are perennial truths being <em>recovered</em>, not a 2012 policy fashion — which is also why critics call the move antiquarian cherry-picking. Both readings can be true at once.</p></details></li>
+    <li>Does Ibn Khaldun's cycle of conquest and decadence describe any modern states? Where does it break down?
+      <details class="ans"><summary>Proposed answer</summary><p>It maps loosely onto oil monarchies (desert hardiness converted into rentier softness within three generations), onto revolutionary states that bureaucratize (the USSR), and onto any elite whose founding <em>asabiyyah</em> decays into privilege. It breaks down at the mechanism: modern states no longer fall to hardy peoples from the margins — firepower closed that route — and "decadence" resists measurement. The cycle survives best as a theory of elite cohesion and generational decay, not of conquest.</p></details></li>
+    <li>McNeill emphasizes connection; Kaplan emphasizes barriers. Are they using the same map differently?
+      <details class="ans"><summary>Proposed answer</summary><p>Yes — the same map read at different timescales for different questions. McNeill asks how civilizations <em>formed</em>: over centuries, the steppe and the sea lanes are conveyor belts of crops, faiths, and technologies. Kaplan asks why polities <em>collide</em>: in any given crisis, mountains, straits, and distance are walls and gates. The steppe is both the Silk Road and the Mongol invasion route. The best answers notice that timescale, not geography, is what separates the two men.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>Pair this chapter with a two-page primary-source excerpt from Herodotus (Egypt as "the gift of the Nile" works well). Students seeing the ancient text directly makes Kaplan's lineage claim concrete.</p>
+  </div>
+</section>
+
+<!-- ================= CH 4 ================= -->
+<section data-t="IV · The Eurasian Map" data-g="Part I · Visionaries">
+  <p class="eyebrow">Part I · Visionaries · Chapter IV</p>
+  <h2>The Eurasian Map</h2>
+  <p class="lede">Halford Mackinder's 1904 "Geographical Pivot of History" — the single most important text behind this book, and the map every student must be able to draw.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Mackinder announced a <strong>closed system</strong>: after four centuries of European expansion, the map was full. From 1900 on, power struggles reverberate globally because there is no empty space left to absorb them.</li>
+    <li>The <strong>Heartland</strong>: the vast inner core of Eurasia, unreachable by sea power, historically the launch pad of steppe conquerors, potentially unified by railways.</li>
+    <li>Eurasia + Africa form the <strong>World-Island</strong>, the planet's demographic and resource core; everything else (the Americas, Australia) is satellite.</li>
+    <li>The famous dictum (from <em>Democratic Ideals and Reality</em>, 1919): control of Eastern Europe is the gateway to control of everything.</li>
+  </ul>
+
+  <figure>
+    <svg viewBox="0 0 640 380" role="img" aria-label="Schematic of Mackinder's Heartland theory">
+      <rect x="0" y="0" width="640" height="380" class="sv-sea" rx="6"/>
+      <clipPath id="globeA"><ellipse cx="320" cy="190" rx="295" ry="165"/></clipPath>
+      <g class="sv-grat" clip-path="url(#globeA)">
+        <ellipse cx="320" cy="190" rx="74" ry="165"/><ellipse cx="320" cy="190" rx="148" ry="165"/>
+        <ellipse cx="320" cy="190" rx="222" ry="165"/><line x1="320" y1="25" x2="320" y2="355"/>
+        <line x1="25" y1="108" x2="615" y2="108"/><line x1="25" y1="190" x2="615" y2="190"/>
+        <line x1="25" y1="272" x2="615" y2="272"/>
+      </g>
+      <ellipse cx="320" cy="190" rx="295" ry="165" fill="none" stroke="var(--ocean)" stroke-width="1.4" opacity=".5"/>
+      <!-- world-island landmass -->
+      <path class="sv-coast" d="M150 105 Q225 55 345 62 Q490 70 545 130 Q575 175 540 225 Q560 260 505 300 Q450 335 385 318 Q330 345 275 322 Q205 340 175 285 Q120 250 132 190 Q118 140 150 105 Z"/>
+      <path class="sv-land" d="M150 105 Q225 55 345 62 Q490 70 545 130 Q575 175 540 225 Q560 260 505 300 Q450 335 385 318 Q330 345 275 322 Q205 340 175 285 Q120 250 132 190 Q118 140 150 105 Z"/>
+      <!-- heartland -->
+      <ellipse cx="345" cy="140" rx="120" ry="52" class="sv-zone"/>
+      <ellipse cx="345" cy="140" rx="120" ry="52" class="sv-hot"/>
+      <text x="345" y="136" text-anchor="middle" class="sv-big">The Heartland</text>
+      <text x="345" y="153" text-anchor="middle" class="sv-lbl2">the "pivot area" — sealed off from sea power</text>
+      <!-- labels -->
+      <text x="330" y="250" text-anchor="middle" class="sv-big">World-Island</text>
+      <text x="330" y="266" text-anchor="middle" class="sv-lbl2">Eurasia + Africa: the core of population &amp; resources</text>
+      <text x="205" y="120" text-anchor="middle" class="sv-lbl">Eastern Europe</text>
+      <text x="205" y="133" text-anchor="middle" class="sv-lbl2">the gateway</text>
+      <text x="63" y="60" class="sv-lbl2">Outer crescent: the Americas,</text>
+      <text x="63" y="73" class="sv-lbl2">Britain, Japan, Australia</text>
+      <path class="sv-dash" d="M175 300 Q320 355 490 297"/>
+      <text x="330" y="342" text-anchor="middle" class="sv-lbl">Inner (marginal) crescent — the maritime rim</text>
+    </svg>
+    <figcaption>Schematic, not to scale — after Mackinder's 1904 diagram. Have students sketch this from memory in week two.</figcaption>
+  </figure>
+
+  <div class="quote">"Who rules East Europe commands the Heartland; who rules the Heartland commands the World-Island; who rules the World-Island commands the world."<span class="who">— Halford Mackinder, Democratic Ideals and Reality (1919)</span></div>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>Heartland</span><span>World-Island</span><span>pivot area</span><span>closed system</span><span>Columbian epoch</span><span>Halford Mackinder</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Mackinder wrote when railways were the disruptive technology. Do aircraft, ICBMs, and cyberspace refute the Heartland thesis or merely modify it?
+      <details class="ans"><summary>Proposed answer</summary><p>Modify, mostly. Aircraft and missiles compress the map but still cannot hold ground — Ukraine is being fought by armies over plains, as in 1943 — and inner Eurasia remains beyond naval reach, now organized by pipelines and railways rather than railways alone. Cyberspace is the strongest refutation candidate, yet even it runs on cables, landing stations, and data centers that sit somewhere. Fair verdict: the specific 1904 mechanism is dated; the insight that sea power stops at the steppe is not.</p></details></li>
+    <li>Both world wars and the Cold War were fought largely over Eastern Europe and the Eurasian rim. Coincidence, prophecy, or self-fulfilling doctrine?
+      <details class="ans"><summary>Proposed answer</summary><p>All three, in layers. Structural: Eastern Europe genuinely lies between power centers with no defensible line, so conflict recurs there for the reasons Mackinder described. Prophecy-as-influence: containment's architects read him, so postwar strategy partly <em>executed</em> the map — self-fulfilling. Selection bias: the Pacific War, Vietnam, and the Middle East fit awkwardly, and we notice the confirming wars more. The teachable skill is separating those three mechanisms rather than choosing one.</p></details></li>
+    <li>Who, if anyone, "rules the Heartland" today?
+      <details class="ans"><summary>Proposed answer</summary><p>Russia occupies it but cannot command it — too little population and economy behind too much space. China increasingly <em>organizes</em> it without garrisoning it: Belt and Road corridors, Central Asian energy, and the role of Moscow's customer of last resort — a commercial Heartland strategy Mackinder never imagined. So: nobody rules it; it has become the object of a slow Sino-Russian bargain, with Beijing's hand strengthening yearly. That may be the chapter's most current lesson.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>This is the course's anchor visual. Teach the dictum as a <em>testable hypothesis</em>: list the 20th century's great conflicts on the board and ask which ones the 1904 map predicts. Keep the diagram up in every later week — Part II is essentially six applications of it.</p>
+  </div>
+</section>
+
+<!-- ================= CH 5 ================= -->
+<section data-t="V · The Nazi Distortion" data-g="Part I · Visionaries">
+  <p class="eyebrow">Part I · Visionaries · Chapter V</p>
+  <h2>The Nazi Distortion</h2>
+  <p class="lede">How Karl Haushofer bent Mackinder's analysis into a justification for conquest — and why geopolitics spent fifty years as a dirty word.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Haushofer and the German <em>Geopolitik</em> school converted Mackinder's descriptive warning into a prescriptive program: <em>Lebensraum</em>, autarky, expansion east.</li>
+    <li>The Nazi association discredited geopolitics in Western academia for two generations — one reason Kaplan must "recover" these thinkers at all.</li>
+    <li>The lesson is about intellectual responsibility: a map can describe a temptation or endorse one, and the line between analysis and advocacy is thin.</li>
+    <li>Mackinder himself intended the opposite of Haushofer: he wrote to warn democracies to <em>prevent</em> any single power from seizing the Heartland.</li>
+  </ul>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>Karl Haushofer</span><span>Geopolitik</span><span>Lebensraum</span><span>Rudolf Kjellén</span><span>autarky</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>What exactly did Haushofer change in Mackinder's argument to turn a warning into a license? Can you locate the precise logical move?
+      <details class="ans"><summary>Proposed answer</summary><p>The move is from <em>is</em> to <em>ought</em>, achieved by naturalizing strategy into biology. Mackinder: the Heartland <em>could</em> empower whoever unites it, therefore democracies must <em>prevent</em> that. Haushofer: the state is an organism that <em>needs</em> space (Lebensraum), therefore seizing it is a right, even a duty. A description of a temptation becomes a prescription of an entitlement, and the intended audience flips from defenders to aggressors. Locating that single step teaches students to spot the same move elsewhere — "the map made us do it."</p></details></li>
+    <li>Are there ideas taught in universities today that carry a similar dual-use risk? How should scholars handle them?
+      <details class="ans"><summary>Proposed answer</summary><p>Candidates: realism itself ("great powers need spheres of influence"), nuclear physics, gain-of-function biology, AI, network analysis of societies. The Haushofer lesson is that suppression fails and hygiene works: teach the misuse alongside the idea, keep the descriptive and prescriptive registers explicitly separate, and make the ethics part of the curriculum — as this chapter does for geopolitics, and as this course should model.</p></details></li>
+    <li>Should an idea be judged by its worst users?
+      <details class="ans"><summary>Proposed answer</summary><p>No — but its worst users reveal its affordances. An idea that flatters power, dissolves moral limits, or claims nature's authority is structurally easier to abuse, and that ease is a real property of the idea, worth grading. Mackinder is not refuted by Haushofer; he is <em>annotated</em> by him. Anyone reviving these maps — Kaplan, and this course — owes the audience the guardrails stated aloud. That is precisely this chapter's function in the book.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>Short chapter — pair it with Chapter IV in one week. It supplies the course's ethics moment: assign a one-page reflection on the difference between describing power and prescribing it. This also inoculates you against the charge of teaching "imperial cartography" uncritically.</p>
+  </div>
+</section>
+
+<!-- ================= CH 6 ================= -->
+<section data-t="VI · The Rimland Thesis" data-g="Part I · Visionaries">
+  <p class="eyebrow">Part I · Visionaries · Chapter VI</p>
+  <h2>The Rimland Thesis</h2>
+  <p class="lede">Nicholas Spykman's cold-eyed correction to Mackinder: the decisive zone is not the inner core but the maritime rim of Eurasia — the belt where most of humanity actually lives.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Spykman, writing in 1942, analyzed the world "as it is, not as we wish it to be" — amoral, unsentimental, and startlingly predictive.</li>
+    <li>The <strong>Rimland</strong> — Europe, the Middle East, South Asia, East Asia — holds the population, industry, and coastlines. Its formula: who controls the Rimland rules Eurasia, and who rules Eurasia controls the destinies of the world.</li>
+    <li>The Caribbean is America's "Mediterranean" — control of it made the U.S. a great power before it ever crossed the oceans.</li>
+    <li>Writing mid-war, Spykman foresaw the postwar rise of China and argued the U.S. would one day need Japan as an ally against it — containment's blueprint, years before Kennan.</li>
+  </ul>
+
+  <figure>
+    <svg viewBox="0 0 640 380" role="img" aria-label="Schematic of Spykman's Rimland theory">
+      <rect x="0" y="0" width="640" height="380" class="sv-sea" rx="6"/>
+      <clipPath id="globeB"><ellipse cx="320" cy="190" rx="295" ry="165"/></clipPath>
+      <g class="sv-grat" clip-path="url(#globeB)">
+        <ellipse cx="320" cy="190" rx="74" ry="165"/><ellipse cx="320" cy="190" rx="148" ry="165"/>
+        <ellipse cx="320" cy="190" rx="222" ry="165"/><line x1="320" y1="25" x2="320" y2="355"/>
+        <line x1="25" y1="108" x2="615" y2="108"/><line x1="25" y1="190" x2="615" y2="190"/>
+        <line x1="25" y1="272" x2="615" y2="272"/>
+      </g>
+      <ellipse cx="320" cy="190" rx="295" ry="165" fill="none" stroke="var(--ocean)" stroke-width="1.4" opacity=".5"/>
+      <path class="sv-coast" d="M150 105 Q225 55 345 62 Q490 70 545 130 Q575 175 540 225 Q560 260 505 300 Q450 335 385 318 Q330 345 275 322 Q205 340 175 285 Q120 250 132 190 Q118 140 150 105 Z"/>
+      <path class="sv-land" d="M150 105 Q225 55 345 62 Q490 70 545 130 Q575 175 540 225 Q560 260 505 300 Q450 335 385 318 Q330 345 275 322 Q205 340 175 285 Q120 250 132 190 Q118 140 150 105 Z"/>
+      <ellipse cx="345" cy="140" rx="120" ry="52" class="sv-thin"/>
+      <text x="345" y="145" text-anchor="middle" class="sv-lbl2">Heartland (demoted)</text>
+      <!-- rimland band -->
+      <path d="M138 175 Q150 265 230 305 Q320 338 420 315 Q510 295 540 230" fill="none" stroke="var(--signal)" stroke-width="26" opacity=".33" stroke-linecap="round"/>
+      <path class="sv-hot" d="M138 175 Q150 265 230 305 Q320 338 420 315 Q510 295 540 230" stroke-dasharray="7 5"/>
+      <text x="200" y="222" class="sv-big">Europe</text>
+      <text x="285" y="290" class="sv-big">Middle East</text>
+      <text x="400" y="298" class="sv-big">South Asia</text>
+      <text x="487" y="248" class="sv-big">East Asia</text>
+      <text x="330" y="368" text-anchor="middle" class="sv-lbl">The Rimland: the maritime fringe where population, industry, and conflict concentrate</text>
+    </svg>
+    <figcaption>Spykman inverts Mackinder: the rim, not the core, is the prize. U.S. Cold War strategy — NATO, Middle East pacts, Japan/Korea alliances — traced this exact band.</figcaption>
+  </figure>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>Rimland</span><span>Nicholas Spykman</span><span>American Mediterranean</span><span>containment</span><span>offshore balancing</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Overlay America's Cold War alliances on Spykman's map. How closely do they match — and is that vindication or influence?
+      <details class="ans"><summary>Proposed answer</summary><p>The overlay is almost embarrassing: NATO, CENTO, SEATO, the Japan–Korea–Philippines treaties, ANZUS — a necklace strung along Spykman's band. And it is vindication <em>and</em> influence: Spykman codified a logic (deny any single power the Eurasian littoral) that planners were already converging on, and his readers then built the alliances that confirmed him. A map can be simultaneously true and self-fulfilling — introduce that distinction here and reuse it on Mackinder in week 8.</p></details></li>
+    <li>Spykman insisted analysis must be amoral. Is amoral analysis actually possible, or does every map smuggle in values?
+      <details class="ans"><summary>Proposed answer</summary><p>Push students past the easy "no." Amoral <em>purpose</em> is illusory — Spykman's frame already values state power over populations, and what a map omits is a moral choice. But amoral <em>method</em> — disciplining wish away from assessment, describing the board before advocating a move — is a real, trainable skill, and Spykman planning in mid-1942 for Japan's postwar rehabilitation shows its power. The defensible position: aspire to amoral method while admitting the frame's values.</p></details></li>
+    <li>Where are today's flashpoints — Ukraine, Taiwan, the Gulf? What does their position on the Rimland suggest?
+      <details class="ans"><summary>Proposed answer</summary><p>Ukraine, Taiwan, Korea, Hormuz, the Red Sea — each sits on the band or its sea gates, where continental power meets maritime power, exactly where Spykman said pressure meets reach. Then make students earn the vindication with counterexamples: the Sahel, Sudan, Kashmir, cyber conflict — violence the band does not capture — and ask whether "flashpoint" is itself defined by great-power interest, which is a Rimland-shaped lens.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>The best single exercise of Part I: give students the Heartland and Rimland diagrams side by side and a list of post-1945 U.S. wars and alliances, and ask which map better predicts them. It turns theory into evidence-weighing.</p>
+  </div>
+</section>
+
+<!-- ================= CH 7 ================= -->
+<section data-t="VII · The Allure of Sea Power" data-g="Part I · Visionaries">
+  <p class="eyebrow">Part I · Visionaries · Chapter VII</p>
+  <h2>The Allure of Sea Power</h2>
+  <p class="lede">Alfred Thayer Mahan, the American admiral whose 1890 book taught three empires to build battleships — and whose keenest readers today are in Beijing and New Delhi.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Mahan's claim: national greatness flows from sea power — merchant commerce, protected by navies, secured through decisive command of the sea.</li>
+    <li>The sea is "a great commons": whoever polices the trade routes and their chokepoints sets the terms of the world economy.</li>
+    <li>His influence was explosive and dangerous: Theodore Roosevelt, the German Kaiser, and Imperial Japan all read him — and today Chinese and Indian strategists cite him more than Americans do.</li>
+    <li>Kaplan's corrective is Julian Corbett: the subtler theorist of <em>limited</em> naval war, coalitions, and a dispersed "fleet in being" — arguably the better guide for a stretched U.S. Navy.</li>
+  </ul>
+
+  <figure>
+    <svg viewBox="0 0 640 250" role="img" aria-label="Maritime chokepoints along the world's main sea route">
+      <rect x="0" y="0" width="640" height="250" class="sv-sea" rx="6"/>
+      <g class="sv-grat">
+        <line x1="0" y1="62" x2="640" y2="62"/><line x1="0" y1="125" x2="640" y2="125"/>
+        <line x1="0" y1="188" x2="640" y2="188"/>
+        <line x1="128" y1="0" x2="128" y2="250"/><line x1="256" y1="0" x2="256" y2="250"/>
+        <line x1="384" y1="0" x2="384" y2="250"/><line x1="512" y1="0" x2="512" y2="250"/>
+      </g>
+      <path d="M40 145 Q120 100 195 118 Q275 140 340 128 Q420 112 480 132 Q560 152 605 120" fill="none" stroke="var(--ocean)" stroke-width="6" opacity=".18" stroke-linecap="round"/>
+      <path class="sv-dash" d="M40 145 Q120 100 195 118 Q275 140 340 128 Q420 112 480 132 Q560 152 605 120"/>
+      <g class="sv-hotf">
+        <circle cx="95" cy="122" r="6"/><circle cx="195" cy="118" r="6"/>
+        <circle cx="300" cy="132" r="6"/><circle cx="380" cy="120" r="6"/>
+        <circle cx="480" cy="132" r="6"/><circle cx="560" cy="140" r="6"/>
+      </g>
+      <text x="95" y="100" text-anchor="middle" class="sv-lbl">Panama</text>
+      <text x="195" y="96" text-anchor="middle" class="sv-lbl">Gibraltar</text>
+      <text x="300" y="160" text-anchor="middle" class="sv-lbl">Suez / Bab el-Mandeb</text>
+      <text x="380" y="98" text-anchor="middle" class="sv-lbl">Hormuz</text>
+      <text x="480" y="160" text-anchor="middle" class="sv-lbl">Malacca</text>
+      <text x="560" y="168" text-anchor="middle" class="sv-lbl">Taiwan Strait</text>
+      <text x="320" y="222" text-anchor="middle" class="sv-lbl2">A handful of narrow passages carry most of world trade — Mahan's "commons" is governed at its gates</text>
+    </svg>
+    <figcaption>Chokepoints of the maritime commons. Ask students: who patrols each of these today, and who would like to?</figcaption>
+  </figure>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>A. T. Mahan</span><span>command of the sea</span><span>chokepoints</span><span>Julian Corbett</span><span>fleet in being</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Why would Mahan be more avidly read in rising powers than in the established one? What does a navy mean to a nation on the way up?
+      <details class="ans"><summary>Proposed answer</summary><p>Because Mahan is a syllabus for arrival. Established powers take the commons for granted — they already police it; rising powers must theorize what they lack, and Mahan converts fleets into a formula for greatness: commerce → navy → command of the sea → wealth and status. He is also domestically useful, giving admirals in Beijing and Delhi a respectable, civilian-readable case for budgets. America read him exactly the same way — in 1890, when it was the rising power.</p></details></li>
+    <li>Mahan versus Corbett: decisive battle versus dispersed presence. Which doctrine fits a world of drones, missiles, and container ships?
+      <details class="ans"><summary>Proposed answer</summary><p>Corbett, mostly. Precision missiles make concentrated fleets into targets — the Moskva, the carrier-vulnerability debate — while the actual object of naval war remains Corbettian: control of communications, coalition operations, limited aims; the Red Sea convoy work is textbook. Mahan survives where geography concentrates value: chokepoints, bases, and the logic of presence. A good seminar lands on: Corbett for <em>how</em> to fight at sea, Mahan for <em>where</em>.</p></details></li>
+    <li>Pick one chokepoint from the diagram and trace what happens to your country's economy if it closes for ninety days.
+      <details class="ans"><summary>Proposed answer</summary><p>For a Hong Kong classroom, run Malacca: the bulk of China's energy imports and container trade transits it; closure reroutes shipping thousands of miles via Lombok, spikes freight and insurance, and idles factories within weeks. This is the "Malacca dilemma" — Beijing's own name for the exercise — and it explains the pipelines through Myanmar and Pakistan, the naval buildup, and the South China Sea bases better than any speech. The payoff line: dependence is invisible until you close the gate.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>The chokepoint-closure question works superbly as a small-group simulation — assign each group a different strait and have them brief the class on the cascade. Concrete, current, and it makes Mahan's abstraction visceral.</p>
+  </div>
+</section>
+
+<!-- ================= CH 8 ================= -->
+<section data-t="VIII · The “Crisis of Room”" data-g="Part I · Visionaries">
+  <p class="eyebrow">Part I · Visionaries · Chapter VIII</p>
+  <h2>The "Crisis of Room"</h2>
+  <p class="lede">Closing Part I: Yale strategist Paul Bracken's argument that the map has not only closed — it is now crowded, urban, and bristling with missiles.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Bracken (<em>Fire in the East</em>, 1999): across Asia, missile ranges, overlapping air defenses, and nuclear arsenals now blanket a landmass that once absorbed conflict through sheer distance. The "finite size of the earth" is itself a force for instability.</li>
+    <li>Technology does not erase geography — it <em>compresses</em> it: weapons shrink the map faster than diplomacy can adjust, so crises in one region transmit instantly to others.</li>
+    <li>Urbanization stacks the crisis vertically: vast, young, volatile megacities on coasts and fault lines become the terrain of future conflict.</li>
+    <li>Via Elias Canetti's <em>Crowds and Power</em>, Kaplan links crowded space to mass psychology — claustrophobia as a political condition.</li>
+  </ul>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>Paul Bracken</span><span>closed system</span><span>missile geography</span><span>megacities</span><span>Elias Canetti</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>"Technology shrinks the map rather than erasing it." Unpack the difference — and find one current example of each claim.
+      <details class="ans"><summary>Proposed answer</summary><p>Erasure would mean location has stopped mattering — a video call, a wire transfer. Compression means locations that never touched now do: a drone launched from Yemen closes a global shipping artery; a missile from Iran reaches Israel in minutes. A current pair: remote work as near-erasure — until a cable cut or an export control re-imports place; and the Red Sea diversions of 2024 as pure compression — distance avenging itself through a cheap weapon.</p></details></li>
+    <li>If distance no longer insulates, what replaces it as a source of security?
+      <details class="ans"><summary>Proposed answer</summary><p>Purchased substitutes, each a form of depth: technical (hardening, missile defense — Israel's layered systems), borrowed (alliances), psychological (deterrence), economic (redundant supply chains, stockpiles), and civic (resilience — Taiwan's preparations, Finland's shelters). The irony worth drawing out: every substitute is an expensive attempt to buy back what oceans and distance once provided free. That is Bracken's thesis restated as a budget line.</p></details></li>
+    <li>Does the drone-and-missile warfare of the 2020s (Ukraine, the Red Sea) confirm or complicate Bracken's picture?
+      <details class="ans"><summary>Proposed answer</summary><p>Confirms the geometry, complicates the mood. Ukraine is fought under a transparent, saturated sky where nothing behind the front is safe, and a local Red Sea war repriced world shipping within weeks — compression exactly as forecast. But cheap drones also favor the defense and devalue exquisite arsenals, and nuclear thresholds have held through years of major war — suggesting the crowded map is more survivable, though never calmer, than the 1999 alarm implied.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>Good midpoint for a synthesis session: have students build a one-page "field guide" to all of Part I's thinkers (Mackinder, Haushofer, Spykman, Mahan, Corbett, Bracken) — one claim, one map, one weakness each. It becomes their toolkit for Part II.</p>
+  </div>
+</section>
+
+<!-- ================= CH 9 ================= -->
+<section data-t="IX · European Divisions" data-g="Part II · The 21st-Century Map">
+  <p class="eyebrow">Part II · The Early-21st-Century Map · Chapter IX</p>
+  <h2>The Geography of European Divisions</h2>
+  <p class="lede">Europe as a peninsula of peninsulas: why the continent's internal fault lines — north–south, east–west — keep resurfacing through every political order built on top of them.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Europe's jagged coastline, navigable rivers, and mountain compartments made it plural by design — many states, no permanent hegemon.</li>
+    <li>Old maps persist under new institutions: the Carolingian core (France–Germany–Benelux) is still the EU's engine; the Mediterranean south and post-communist east remain the periphery. The euro crisis traced these lines almost exactly.</li>
+    <li>Germany is the pivot: too big for balance, too enmeshed for empire, drawn eastward by trade and geography — Mitteleuropa reborn as economics.</li>
+    <li>Greece is the cautionary tale: read as the cradle of the West, but geographically a Balkan and Eastern Orthodox borderland whose position belies the brochure.</li>
+  </ul>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>Carolingian core</span><span>Mitteleuropa</span><span>peninsula of peninsulas</span><span>north–south divide</span><span>Berlin's pull eastward</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Lay the eurozone debt-crisis map (creditor vs. debtor states) over a physical map of Europe. What do you see, and is the correlation causal?
+      <details class="ans"><summary>Proposed answer</summary><p>The creditor–debtor line traces the Carolingian core against the Mediterranean and post-communist rims with uncomfortable fidelity. But run the causality carefully: terrain shaped trade routes, cities, and institutions over centuries, and those institutions — not the mountains themselves — borrowed and defaulted. Ireland is the useful anomaly: Atlantic periphery, crisis-hit, then fastest to rebound, which institutions explain and relief maps cannot. Verdict: the physical map is a fossil record of causes, not the cause.</p></details></li>
+    <li>Kaplan wrote before Brexit and before the 2022 invasion of Ukraine pushed NATO's center of gravity east. Do these events fit his map?
+      <details class="ans"><summary>Proposed answer</summary><p>Broadly yes, with an instructive twist. Brexit re-enacts the offshore islander's oldest stance toward the continent; the war has dragged NATO's weight into the old marchlands — Poland, the Baltics, Finland and Sweden — reviving exactly the borderland geography the chapter sketches. The twist: what moved east first was voluntary attraction (EU and NATO applications), not conquest. Geography set the stage, but agency on the periphery, not at the core, drove the plot.</p></details></li>
+    <li>Can institutions (EU, NATO, the euro) permanently override geography, or only rent it into silence?
+      <details class="ans"><summary>Proposed answer</summary><p>Reframe the dichotomy: "renting geography into silence" is what success looks like. The fault lines persist — the euro crisis and the enlargement debates trace them — but they now discharge as fiscal quarrels rather than wars, under institutions that survived the euro crisis, Brexit, and 2022. Institutions are how agency answers geography; the rent never ends, but paying it is the achievement. The 1990s Balkans stand as the reminder of what unpaid rent costs.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>Start Part II's rhythm here: every regional week opens with a five-minute blank-map sketch (coastlines, rivers, mountains — no borders), then the chapter discussion, then a closing "2012 vs. today" scorecard on Kaplan's predictions.</p>
+  </div>
+</section>
+
+<!-- ================= CH 10 ================= -->
+<section data-t="X · Russia &amp; the Heartland" data-g="Part II · The 21st-Century Map">
+  <p class="eyebrow">Part II · The Early-21st-Century Map · Chapter X</p>
+  <h2>Russia and the Independent Heartland</h2>
+  <p class="lede">The chapter that reads differently after 2022: Russia's flat, borderless immensity as the engine of its insecurity — and of its endless push for buffers.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Russia occupies the Heartland but is cursed by it: no natural frontiers on the great European plain, brutal climate, rivers draining to frozen seas. Insecurity, not ambition alone, drives expansion.</li>
+    <li>The pattern is centuries old: invasions absorbed (Mongols, Napoleon, Hitler) breed a state that equates security with depth — pushing borders outward to buy space and time.</li>
+    <li>1991 stripped away the buffer; Kaplan reads Putin's project as its reconstruction — pressure on Ukraine, Belarus, the Caucasus, Central Asia.</li>
+    <li>Ukraine is the pivot: quoting Brzezinski, without Ukraine Russia can still be an empire in Asia, but not in Europe. (Kaplan wrote this a decade before the full-scale invasion.)</li>
+  </ul>
+
+  <div class="quote">"Without Ukraine, Russia ceases to be a Eurasian empire."<span class="who">— Zbigniew Brzezinski, quoted in Chapter X</span></div>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>Heartland occupant</span><span>strategic depth</span><span>near abroad</span><span>Zbigniew Brzezinski</span><span>buffer states</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Kaplan explains Russian expansionism through insecurity and terrain. Does this explanation risk excusing it? Distinguish explanation from justification.
+      <details class="ans"><summary>Proposed answer</summary><p>Weber's line: understanding is not endorsing. The geographic account explains a <em>pressure</em> (flat frontiers, invasion memory); it cannot supply a <em>license</em>, because the same map left other options open — Poland shares the plain and chose differently — and the account equally explains Ukraine's insecurity. If explanation excused, it would excuse both sides into stalemate, i.e., excuse no one. The real hazard is rhetorical: structural language ("Russia had no choice") quietly deletes the chooser. Name that move when students make it.</p></details></li>
+    <li>The 2022 invasion of Ukraine: point-by-point, what did this chapter get right, and what did it miss (Ukrainian agency, above all)?
+      <details class="ans"><summary>Proposed answer</summary><p>Right: the buffer obsession, the pressure on the near abroad, Ukraine as the hinge — the <em>direction</em> of the war is on this chapter's map, and the Brzezinski quotation reads as prophecy. Missed: Ukrainian agency above all — the map treats Ukraine as terrain, not actor — plus NATO's cohesion and the sheer military underperformance of the Heartland power. The cleanest verdict, worth writing on the board: geography predicted the attempt; politics decided the outcome.</p></details></li>
+    <li>If geography drives Russian behavior, what policy follows — accommodation, containment, or something else? Show how the same map can support opposite policies.
+      <details class="ans"><summary>Proposed answer</summary><p>The same map supports opposites, which is the lesson. Read the insecurity as structural and you get accommodation: neutrality, buffers, spheres — the realist-restraint line. Read the expansion as structural and you get containment: deny the buffers, arm the marches. The choice turns on judgments about intent and on values, not on terrain. House rule for the course: anyone claiming the map <em>requires</em> their policy is smuggling; geography narrows menus, it never orders.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>The strongest "test Kaplan" week in the course — students will have strong feelings. Channel them into evidence: split the class into a "vindicated" team and a "refuted" team, each required to cite specific passages and specific post-2022 events. The refuted team should press on what determinism misses: Ukraine's choices.</p>
+  </div>
+</section>
+
+<!-- ================= CH 11 ================= -->
+<section data-t="XI · Chinese Power" data-g="Part II · The 21st-Century Map">
+  <p class="eyebrow">Part II · The Early-21st-Century Map · Chapter XI</p>
+  <h2>The Geography of Chinese Power</h2>
+  <p class="lede">China's rare good fortune — secure land borders for the first time in centuries — frees it to turn seaward, where it collides with the American navy's map.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Historically menaced from the steppe, China now faces no serious land threat — so, like the United States a century earlier, its ambition flows to the sea.</li>
+    <li>On land it expands by commerce and demography, not armies: into the Russian Far East, Central Asian energy, and Southeast Asia. (The Belt and Road, announced a year after the book, followed this script.)</li>
+    <li>At sea it confronts the <strong>first island chain</strong> — Japan, Okinawa, Taiwan, the Philippines — a barrier of U.S. allies that Beijing reads as encirclement.</li>
+    <li>Taiwan is the hinge: MacArthur's "unsinkable aircraft carrier." Its absorption would crack the chain and free China into the Pacific; its independence keeps China boxed in.</li>
+  </ul>
+
+  <figure>
+    <svg viewBox="0 0 640 320" role="img" aria-label="Schematic of the first and second island chains off China's coast">
+      <rect x="0" y="0" width="640" height="320" class="sv-sea" rx="6"/>
+      <g class="sv-grat">
+        <line x1="0" y1="80" x2="640" y2="80"/><line x1="0" y1="160" x2="640" y2="160"/>
+        <line x1="0" y1="240" x2="640" y2="240"/>
+        <line x1="160" y1="0" x2="160" y2="320"/><line x1="320" y1="0" x2="320" y2="320"/>
+        <line x1="480" y1="0" x2="480" y2="320"/>
+      </g>
+      <path class="sv-coast" d="M0 40 Q90 55 130 110 Q165 170 140 235 Q120 285 60 310 L0 315"/>
+      <path class="sv-land" d="M0 40 Q90 55 130 110 Q165 170 140 235 Q120 285 60 310 L0 315 Z"/>
+      <text x="52" y="150" class="sv-big">China</text>
+      <text x="52" y="167" class="sv-lbl2">secure on land,</text>
+      <text x="52" y="180" class="sv-lbl2">turning seaward</text>
+      <!-- first chain -->
+      <path class="sv-hot" d="M235 30 Q300 120 275 200 Q258 265 205 300" stroke-dasharray="7 5"/>
+      <circle cx="252" cy="66" r="5" class="sv-hotf"/><text x="266" y="62" class="sv-lbl">Japan</text>
+      <circle cx="287" cy="140" r="5" class="sv-hotf"/><text x="300" y="137" class="sv-lbl">Okinawa</text>
+      <circle cx="279" cy="196" r="6.5" class="sv-hotf"/><text x="294" y="193" class="sv-lbl">Taiwan — the hinge</text>
+      <circle cx="240" cy="266" r="5" class="sv-hotf"/><text x="254" y="263" class="sv-lbl">Philippines</text>
+      <text x="240" y="26" class="sv-lbl">First island chain</text>
+      <!-- second chain -->
+      <path class="sv-dash" d="M430 22 Q490 140 450 250 Q430 292 395 312"/>
+      <circle cx="468" cy="150" r="5" fill="var(--ocean)"/><text x="482" y="147" class="sv-lbl">Guam</text>
+      <text x="432" y="18" class="sv-lbl">Second island chain</text>
+      <path d="M150 160 L225 160" stroke="var(--signal)" stroke-width="2" marker-end="none"/>
+      <polygon points="225,160 215,155 215,165" class="sv-hotf"/>
+      <text x="330" y="308" class="sv-lbl2">To Beijing the chains read as a fence; to Washington, as a defensive line.</text>
+    </svg>
+    <figcaption>The island chains, schematically. One map, two readings — encirclement or defense — is the whole lesson.</figcaption>
+  </figure>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>first island chain</span><span>Taiwan</span><span>string of pearls</span><span>South China Sea</span><span>anti-access / area denial</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Kaplan compares China's seaward turn to America's rise after it secured its own continent. How far does the analogy hold, and where does it mislead?
+      <details class="ans"><summary>Proposed answer</summary><p>It holds at the level of sequence: continental security first, then the navy, then resentment of outside powers in the near seas — the South China Sea as China's Caribbean. It misleads on resistance: the United States expanded into a near-empty ocean against fading Spain and a distracted Britain; China faces the incumbent superpower's alliance chain at its doorstep, plus Japan and India — and it is aging before it is rich. The analogy predicts the ambition, not the outcome.</p></details></li>
+    <li>Since 2012: island-building in the South China Sea, the Belt and Road, naval expansion. Which of Kaplan's projections have held up best?
+      <details class="ans"><summary>Proposed answer</summary><p>Strongest: the seaward turn (island-building from 2013; a navy now the world's largest by hull count), commercial-demographic expansion inland (the Belt and Road, announced a year after publication, followed the chapter's script almost to the letter), and Taiwan as the hinge. Weakest: the patient, trade-first China of 2012 under-weights ideology's return under Xi — coercive diplomacy, decoupling, the securitized economy. Geography set the direction; politics changed the temperature.</p></details></li>
+    <li>Stand at the map's other side: describe the first island chain as a Chinese strategist sees it. Does the exercise change your policy instincts?
+      <details class="ans"><summary>Proposed answer</summary><p>From Beijing the chain is a fence: every exit to the Pacific passes an American ally, and the energy lifeline runs through Malacca under someone else's navy. Done honestly, the exercise converts "aggression" into "claustrophobia." Then flip it again: absorbing Taiwan would simply transfer the claustrophobia to Japan and the Philippines, whose sea lanes pass the same island. That double flip is the security dilemma made visible — and the instinct it should install is reassurance design, not moralizing.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>The perspective-flip (question 3) is the pedagogical core: have half the class brief "the view from Beijing" and half "the view from Washington" using the <em>same</em> diagram. Geography as Rorschach test — students never forget it. Given a Hong Kong classroom, this chapter will generate real engagement; keep the discussion anchored to the map and to sourced claims.</p>
+  </div>
+</section>
+
+<!-- ================= CH 12 ================= -->
+<section data-t="XII · India's Dilemma" data-g="Part II · The 21st-Century Map">
+  <p class="eyebrow">Part II · The Early-21st-Century Map · Chapter XII</p>
+  <h2>India's Geographical Dilemma</h2>
+  <p class="lede">A subcontinent framed by the Himalayas and the sea — coherent on the map, yet historically fragmented, and permanently entangled with the invasion corridor to its northwest.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>The frame is superb — mountains north, ocean south — but the interior is plural: rivers, plateaus, and language zones that empires (Maurya, Mughal, British) never fully unified.</li>
+    <li>The northwest is the wound: every land invasion came through the passes from Afghanistan. Pakistan sits astride that corridor, making the rivalry geographic before it is religious.</li>
+    <li>Afghanistan is the two states' shared obsession — Pakistan seeks "strategic depth" there; India seeks to deny it — which is why the Kabul question never stays local.</li>
+    <li>India's opportunity is maritime: centrally positioned in the ocean that bears its name, astride the routes from Hormuz to Malacca — if it can look past its land borders.</li>
+  </ul>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>subcontinent</span><span>Khyber corridor</span><span>strategic depth</span><span>Indian Ocean</span><span>Himalayan frontier</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>"India–Pakistan is a geographic rivalry before it is a religious one." Argue for and against Kaplan's framing.
+      <details class="ans"><summary>Proposed answer</summary><p>For: the rivalry's substance is stubbornly territorial — Kashmir, the Indus waters, the invasion corridor — and anxiety about the northwest passes predates Islam in India by a millennium. Against: Partition was an act of religious politics that <em>created</em> today's geography, and ideology decides which neighbors become enemies at all (compare the U.S.–Canada border). The strong synthesis: geography loads the rivalry with its content and stakes; religion drew the border that armed it.</p></details></li>
+    <li>Why does India, with its enviable ocean position, keep getting pulled back into continental disputes? What would a genuinely maritime Indian strategy look like?
+      <details class="ans"><summary>Proposed answer</summary><p>Insurance premiums: two live land borders (Pakistan, China) keep the army first in budgets and Himalayan roads first in infrastructure, while border nationalism pays domestically in a way blue-water patrols never will. The maritime strategy exists in outline: the Andaman–Nicobar command watching Malacca, a rising naval budget share, Quad and Indian Ocean coalition-building, presence from Hormuz eastward — influence over the ocean's gates rather than parity on the passes. Geography offers it; politics keeps deferring it.</p></details></li>
+    <li>How does China's presence — Himalayan border, ports around the Indian Ocean — change India's two-front arithmetic?
+      <details class="ans"><summary>Proposed answer</summary><p>It fuses the two fronts into one system: Himalayan pressure (Galwan, 2020), an all-weather Pakistan alliance with CPEC running through disputed Kashmir, and a ring of ports and facilities — Gwadar, Hambantota, Djibouti — around India's own ocean. The effects: nonalignment bends toward the Quad, the naval turn accelerates, and Pakistan becomes as much instrument as rival. India's dilemma is no longer northwest versus north; it is continental versus maritime attention, with China on both sides of the ledger.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>Blank-map week: have students mark the Khyber corridor, the Himalayan passes, and the sea lanes before discussion. The chapter's whole argument is legible from those three features — let students discover that themselves.</p>
+  </div>
+</section>
+
+<!-- ================= CH 13 ================= -->
+<section data-t="XIII · The Iranian Pivot" data-g="Part II · The 21st-Century Map">
+  <p class="eyebrow">Part II · The Early-21st-Century Map · Chapter XIII</p>
+  <h2>The Iranian Pivot</h2>
+  <p class="lede">Kaplan's candidate for the most geographically privileged state in the Greater Middle East: the plateau fortress that fronts both of Eurasia's great energy stores.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Iran is the region's exception: a coherent plateau with natural edges, a state tradition running back to antiquity, and a population center rather than an artificial line-drawing.</li>
+    <li>It is the only country fronting both the Persian Gulf and the Caspian basin — the pivot between the two great hydrocarbon zones, with coastline commanding Hormuz.</li>
+    <li>Persian civilizational reach — language, culture, religious networks — extends far beyond the border, giving Tehran channels of influence (Iraq, Syria, Lebanon, the Gulf) that no Arab rival matches.</li>
+    <li>Kaplan's wager: geography and civilization make Iran a natural great power; the clerical regime is the contingent, human variable sitting on top of a permanent map.</li>
+  </ul>
+
+  <figure>
+    <svg viewBox="0 0 640 300" role="img" aria-label="Iran as pivot between energy and influence zones">
+      <rect x="0" y="0" width="640" height="300" class="sv-sea" rx="6"/>
+      <g class="sv-grat">
+        <ellipse cx="320" cy="150" rx="150" ry="92"/>
+        <ellipse cx="320" cy="150" rx="215" ry="132"/>
+      </g>
+      <ellipse cx="320" cy="150" rx="92" ry="58" fill="var(--ocean)" opacity=".12"/>
+      <ellipse cx="320" cy="150" rx="88" ry="54" class="sv-zone"/>
+      <ellipse cx="320" cy="150" rx="88" ry="54" class="sv-hot"/>
+      <text x="320" y="146" text-anchor="middle" class="sv-big">Iranian plateau</text>
+      <text x="320" y="163" text-anchor="middle" class="sv-lbl2">natural fortress, ancient state</text>
+      <g class="sv-dash">
+        <path d="M320 96 L320 46"/><path d="M232 150 L118 150"/>
+        <path d="M408 150 L522 150"/><path d="M320 204 L320 258"/>
+        <path d="M258 106 L172 62"/><path d="M382 194 L468 244"/>
+      </g>
+      <text x="320" y="34" text-anchor="middle" class="sv-lbl">Caspian energy basin</text>
+      <text x="112" y="140" text-anchor="end" class="sv-lbl">Iraq &amp; the Levant</text>
+      <text x="112" y="154" text-anchor="end" class="sv-lbl2">influence networks</text>
+      <text x="528" y="140" class="sv-lbl">Afghanistan &amp; Central Asia</text>
+      <text x="528" y="154" class="sv-lbl2">Persian cultural sphere</text>
+      <text x="320" y="278" text-anchor="middle" class="sv-lbl">Persian Gulf &amp; Strait of Hormuz</text>
+      <text x="168" y="50" text-anchor="end" class="sv-lbl">Turkey / Caucasus</text>
+      <text x="474" y="262" class="sv-lbl">Indian Ocean routes</text>
+    </svg>
+    <figcaption>The pivot, as a hub: every spoke is a corridor of energy, trade, or cultural reach. No neighbor has more than two.</figcaption>
+  </figure>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>pivot state</span><span>Iranian plateau</span><span>Hormuz</span><span>Greater Middle East</span><span>civilizational reach</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Kaplan separates the permanent (plateau, position, culture) from the contingent (the regime). Is that separation analytically clean — or does the regime shape what the geography is worth?
+      <details class="ans"><summary>Proposed answer</summary><p>Not clean, and the gap is the lesson. The regime determines what the geography is <em>worth</em>: sanctions idle the pivot's corridors, and ideology converted civilizational reach into militia networks — spending the inheritance rather than banking it. Conversely, the regime is itself partly a product of the place (oil rents, siege memory). The better formulation for students: geography sets the ceiling; politics sets how far beneath it a country actually lives. Iran lives very far beneath its ceiling.</p></details></li>
+    <li>Compare Iran's map with Saudi Arabia's or Egypt's. What exactly makes a "pivot"?
+      <details class="ans"><summary>Proposed answer</summary><p>A pivot fronts multiple systems at once and can redirect flows among them. Iran touches the Gulf <em>and</em> the Caspian, the Arab world <em>and</em> South-Central Asia, and holds a coast on Hormuz — plural frontage on energy, trade, and culture, run by a state older than most of its rivals' borders. Saudi Arabia has one basin plus Islam's cities; Egypt has one corridor locked to the Nile. Formula worth writing down: pivot = position × plural frontage × a state capable of using it.</p></details></li>
+    <li>Events since 2012 — sanctions, proxy wars, the 2023–24 escalations. Has Iran's geographic potential been realized, squandered, or deferred?
+      <details class="ans"><summary>Proposed answer</summary><p>Squandered but not erased. The proxy empire bought reach that proved brittle — the setbacks of 2024–25 (Syria lost, proxies degraded, direct exchanges with Israel) showed that networks are not geography, and confirmed the regime as the wasting variable. Yet the permanent layer is intact: the plateau, Hormuz, the double energy frontage, a large educated population. "Deferred" is the precise word — the pivot waits for a state that can cash it, which is exactly the separation debated in question 1.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>Use this chapter to teach the difference between <em>potential</em> and <em>power</em>: geography deals the hand, politics plays it. A quick writing prompt — "Iran is a great power that hasn't happened. Discuss." — reliably produces the course's best essays.</p>
+  </div>
+</section>
+
+<!-- ================= CH 14 ================= -->
+<section data-t="XIV · The Former Ottoman Empire" data-g="Part II · The 21st-Century Map">
+  <p class="eyebrow">Part II · The Early-21st-Century Map · Chapter XIV</p>
+  <h2>The Former Ottoman Empire</h2>
+  <p class="lede">Turkey, the Arab states, and the long shadow of the empire whose dismemberment drew the Middle East's most contested lines.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Turkey is Anatolia: a mountain land bridge between Europe and Asia, and the region's water tower — its dams on the Tigris and Euphrates give it quiet leverage over Syria and Iraq.</li>
+    <li>Kaplan's key distinction: <strong>age-old clusters</strong> (Egypt, Tunisia, Morocco — states congruent with ancient societies) versus <strong>artificial constructions</strong> (Iraq, Syria, Jordan, Libya — lines drawn across sectarian and tribal geography after 1918).</li>
+    <li>The Arab Spring, unfolding as he wrote, traced that distinction: coherent states bent; artificial ones broke. (Syria's and Libya's collapse after publication proved the point grimly.)</li>
+    <li>The Kurds are the map's unfinished business: a mountain people spread across four states, denied one of their own by the post-Ottoman settlement.</li>
+  </ul>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>Anatolian land bridge</span><span>Sykes–Picot lines</span><span>age-old clusters</span><span>artificial states</span><span>hydro-politics</span><span>the Kurds</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Test the clusters-versus-constructions thesis against the decade since 2012: Egypt, Tunisia, Syria, Libya, Iraq. Where does it hold; where does it oversimplify?
+      <details class="ans"><summary>Proposed answer</summary><p>It performs well at the extremes: Tunisia and Egypt bent without shattering; Syria, Libya, and Yemen broke along the predicted lines. It oversimplifies in the middle: Jordan — artificial on paper — proved durable through monarchy, aid, and tribal bargains; Iraq has crawled back toward statehood; and Gulf money stabilized several "constructions." Watch also for circularity: Egypt is cohesive partly because the Nile makes it easy to govern — the thesis can restate its conclusion as its cause.</p></details></li>
+    <li>Is water the quiet master variable of Middle East politics? Follow the Tigris–Euphrates system downstream and list who depends on whose goodwill.
+      <details class="ans"><summary>Proposed answer</summary><p>Follow the water and the hierarchy appears: Turkey's dams sit on both headwaters; Syria depends on Turkish releases; Iraq, last in line, is visibly drying — Basra's salinity crises are the river system rendered as politics. Add the Nile (the GERD dispute with Egypt) and the fossil aquifers under Jordan and the Gulf. "Master variable" is too strong — wars are rarely <em>declared</em> over water — but it is the quiet lever beneath many declared over other things, and climate change raises its coefficient yearly.</p></details></li>
+    <li>Why has "a state for the Kurds" never fit anyone's map? What does the Kurdish case teach about how borders actually get made?
+      <details class="ans"><summary>Proposed answer</summary><p>Because every feasible Kurdistan dismembers four states that agree on nothing else — a rare unanimity that has held for a century; because the mountains that preserved the Kurds as a people also fragmented them (dialects, rival parties, rival patrons) and denied them a defensible, port-accessible core; and because great powers repeatedly found Kurds more useful as leverage than as a state — promised at Sèvres (1920), forgotten at Lausanne (1923). The general lesson: borders record the interests of the strong, not ethnographic justice.</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>Show students the 1916 Sykes–Picot map beside a sectarian/ethnic map of the same terrain — the mismatch <em>is</em> the chapter. Then assign the "redraw the borders" trap: let them try, then discuss why every redrawing creates new minorities. The lesson is humility, not better lines.</p>
+  </div>
+</section>
+
+<!-- ================= CH 15 ================= -->
+<section data-t="XV · Braudel, Mexico &amp; Strategy" data-g="Part III · America's Destiny">
+  <p class="eyebrow">Part III · America's Destiny · Chapter XV</p>
+  <h2>Braudel, Mexico, and Grand Strategy</h2>
+  <p class="lede">The deliberately jarring finale: after fourteen chapters of Eurasia, Kaplan argues America's true strategic frontier is its own southern border.</p>
+
+  <h3>Main Points</h3>
+  <ul class="points">
+    <li>Fernand Braudel's <em>longue durée</em> frames the chapter: beneath the froth of events run slow, deep structures — climate, demography, terrain — that decide more than any headline.</li>
+    <li>Applied at home: the deepest structural fact in America's future is not in the Middle East but next door — Mexico's demography, its cartel violence, and the accelerating human merger of the borderlands.</li>
+    <li>The prescription: husband national power — sea and air presence along the Rimland, no more great land wars in Asia, and serious investment in a functional, integrated North America.</li>
+    <li>The closing provocation: fixated on the Heartland and Rimland abroad, America risks missing the quiet transformation of its own geography.</li>
+  </ul>
+
+  <h3>Key Terms &amp; Names</h3>
+  <div class="terms"><span>Fernand Braudel</span><span>longue durée</span><span>borderlands</span><span>offshore balancing</span><span>North American integration</span></div>
+
+  <h3>Seminar Questions</h3>
+  <ol class="qs">
+    <li>Is Kaplan's Mexico argument the book's logical culmination or a swerve? Reconstruct the chain from Mackinder to this conclusion.
+      <details class="ans"><summary>Proposed answer</summary><p>Reconstruct the chain first: Mackinder's closed system (no region is quarantined) + Braudel's <em>longue durée</em> (slow structures beat headlines) + Spykman's economy of power (husband strength, avoid land wars) ⇒ America's deepest exposure is the 2,000-mile land frontier where the developed and developing worlds meet. Eurasia is a choice; Mexico is a fact. The swerve case: the register shifts from strategy to sociology, and the prescription would survive without the first fourteen chapters. Both readings are defensible — grade the chain, not the conclusion.</p></details></li>
+    <li>Fourteen years on: how has the U.S.–Mexico borderland actually evolved, and does it confirm the <em>longue durée</em> reading?
+      <details class="ans"><summary>Proposed answer</summary><p>The deep current has run as forecast: Mexico became America's largest trading partner (nearshoring), the borderlands' demographic and economic merger deepened, and cartel networks plus fentanyl made the interpenetration darker but no less real. Above that current, politics ran the other way — walls, enforcement crises, migration now hemispheric rather than Mexican. That split — integration proceeding <em>beneath</em> hardening politics — is precisely what Braudel's two-speed history predicts, and worth saying so explicitly in class.</p></details></li>
+    <li>Apply Braudel to your own country: what is its deepest slow-moving structure, the one the news never covers?
+      <details class="ans"><summary>Proposed answer</summary><p>Model it locally before assigning it. Hong Kong's deep structure is position: a deep-water harbor at the Pearl River's mouth, the hinge between China's interior and the maritime world — entrepôt, colony, SAR, and Greater Bay Area are successive re-pricings of the same location. Other candidates: water dependence on the Dongjiang, demographic aging. The test of a good answer: would it still be true in fifty years, and what politics does it quietly constrain today?</p></details></li>
+  </ol>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>Question 3 is the natural bridge to a final assignment — see the Pedagogy plate. Ending the course on students' own geography, rather than Kaplan's, is what makes the material stick.</p>
+  </div>
+</section>
+
+<!-- ================= PEDAGOGY ================= -->
+<section data-t="Pedagogy &amp; Syllabus" data-g="For the Instructor">
+  <p class="eyebrow">For the Instructor</p>
+  <h2>Turning the Book into a Course</h2>
+  <p class="lede">A thirteen-week shape, recurring devices that carry the pedagogy, and the criticisms of Kaplan your students should be armed with.</p>
+
+  <h3>A Thirteen-Week Shape</h3>
+  <div class="tblwrap"><table>
+    <tr><th>Wk</th><th>Reading</th><th>In-class device</th></tr>
+    <tr><td>1</td><td>Preface + Ch. I</td><td>Borderless relief-map icebreaker; Munich vs. Vietnam debate</td></tr>
+    <tr><td>2</td><td>Ch. II</td><td>Determinism spectrum paragraph (collected, returned in week 13)</td></tr>
+    <tr><td>3</td><td>Ch. III</td><td>Herodotus primary-source excerpt</td></tr>
+    <tr><td>4</td><td>Ch. IV–V</td><td>Draw the Heartland map from memory; ethics reflection on Haushofer</td></tr>
+    <tr><td>5</td><td>Ch. VI</td><td>Heartland vs. Rimland: which map predicts postwar history?</td></tr>
+    <tr><td>6</td><td>Ch. VII–VIII</td><td>Chokepoint-closure simulation; Part I "field guide" synthesis</td></tr>
+    <tr><td>7</td><td>Ch. IX</td><td>Eurozone map over relief map; begin weekly "2012 vs. today" scorecard</td></tr>
+    <tr><td>8</td><td>Ch. X</td><td>"Kaplan vindicated / Kaplan refuted" structured debate on Ukraine</td></tr>
+    <tr><td>9</td><td>Ch. XI</td><td>Island-chain perspective flip: Beijing brief vs. Washington brief</td></tr>
+    <tr><td>10</td><td>Ch. XII</td><td>Blank-map: Khyber, Himalayas, sea lanes</td></tr>
+    <tr><td>11</td><td>Ch. XIII</td><td>Essay prompt: "Iran is a great power that hasn't happened"</td></tr>
+    <tr><td>12</td><td>Ch. XIV</td><td>Sykes–Picot vs. ethnic map; the border-redrawing trap</td></tr>
+    <tr><td>13</td><td>Ch. XV</td><td>Braudel at home; return week-2 paragraphs; final projects</td></tr>
+  </table></div>
+
+  <h3>Recurring Devices (the actual pedagogy)</h3>
+  <ul class="points">
+    <li><strong>The map journal.</strong> Every week, each student hand-sketches one map connected to the reading, with a 100-word caption. Drawing forces spatial thinking in a way slides never do; by week 13 they own a personal atlas of the course.</li>
+    <li><strong>The prediction scorecard.</strong> From week 7, each session ends by grading one 2012 claim against the present (Ukraine, South China Sea, Syria, the borderlands). Teaches falsifiability, keeps the 2012 book current forever.</li>
+    <li><strong>The perspective flip.</strong> Regularly assign students to argue from the other side of the map — Moscow's, Beijing's, Tehran's view of the same terrain. Geopolitics is taught best as a change of vantage point.</li>
+    <li><strong>The determinism thermometer.</strong> The week-2 paragraph, returned in week 13. Students grading their own intellectual movement is the cleanest evidence of learning you can collect.</li>
+  </ul>
+
+  <h3>Assessment Ideas</h3>
+  <ul class="points">
+    <li><strong>Final project — "Chapter XVI":</strong> students write the regional chapter Kaplan never wrote (Africa, the Arctic, Southeast Asia, Central Asia…) in his method: terrain first, thinkers second, prediction last. Rubric: quality of the map, use of Part I's theorists, falsifiable claims.</li>
+    <li><strong>Midterm alternative:</strong> the Part I "field guide" (week 6), graded — one claim, one map, one weakness per thinker.</li>
+    <li><strong>Participation:</strong> the map journal, checked, not graded for artistic merit.</li>
+  </ul>
+
+  <h3>Arm the Students: Standard Criticisms of Kaplan</h3>
+  <ul class="points">
+    <li><strong>Determinism by momentum.</strong> He disclaims determinism, but chapter after chapter the terrain always wins. Ask: where in the book does human agency actually defeat geography?</li>
+    <li><strong>Selection bias.</strong> Cases that fit the map are foregrounded; ones that don't (prosperous Singapore on a swamp, poor resource-rich states) are absent.</li>
+    <li><strong>The company he keeps.</strong> Mackinder and Spykman wrote in and for empires; critics ask whether reviving their maps revives their politics too — connect back to the Haushofer chapter.</li>
+    <li><strong>What the map can't see.</strong> Ideology, institutions, finance, climate change, cyberspace — forces that reshape politics without moving a single mountain.</li>
+  </ul>
+
+  <div class="tip"><span class="tl">Teaching note</span>
+    <p>The course succeeds when students stop asking "what does Kaplan say?" and start asking "what does the map load in favor of, and what did people do with it anyway?" Every device above exists to force that shift.</p>
+  </div>
+</section>
+
+</div>
+<div class="plate">
+  <div class="pager ui">
+    <button id="prev" type="button"><span class="dir">Previous</span><span id="prevT"></span></button>
+    <button id="next" type="button"><span class="dir">Next</span><span id="nextT"></span></button>
+  </div>
+</div>
+</main>
+</div>
+
+<script>
+(function(){
+  var secs=[].slice.call(document.querySelectorAll('section'));
+  var nav=document.getElementById('nav');
+  var btns=[];var cur=0;var lastG=null;
+  secs.forEach(function(s,i){
+    var g=s.getAttribute('data-g');
+    if(g!==lastG){var h=document.createElement('div');h.className='navgrp';h.textContent=g;nav.appendChild(h);lastG=g;}
+    var b=document.createElement('button');b.type='button';
+    var t=s.getAttribute('data-t');
+    var m=t.match(/^([IVX]+)\s*·\s*(.*)$/);
+    if(m){b.innerHTML='<span class="rn">'+m[1]+'</span><span>'+m[2]+'</span>';}
+    else{b.innerHTML='<span>'+t+'</span>';}
+    b.addEventListener('click',function(){go(i);});
+    nav.appendChild(b);btns.push(b);
+  });
+  var prev=document.getElementById('prev'),next=document.getElementById('next');
+  var prevT=document.getElementById('prevT'),nextT=document.getElementById('nextT');
+  function go(i){
+    if(i<0||i>=secs.length)return;
+    secs[cur].classList.remove('on');btns[cur].classList.remove('on');
+    cur=i;
+    secs[cur].classList.add('on');btns[cur].classList.add('on');
+    prev.style.visibility=cur===0?'hidden':'visible';
+    next.style.visibility=cur===secs.length-1?'hidden':'visible';
+    if(cur>0)prevT.textContent=secs[cur-1].getAttribute('data-t').replace(/&amp;/g,'&');
+    if(cur<secs.length-1)nextT.textContent=secs[cur+1].getAttribute('data-t').replace(/&amp;/g,'&');
+    window.scrollTo({top:0,behavior:'auto'});
+  }
+  prev.addEventListener('click',function(){go(cur-1);});
+  next.addEventListener('click',function(){go(cur+1);});
+  document.addEventListener('keydown',function(e){
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+    if(e.key==='ArrowRight')go(cur+1);
+    if(e.key==='ArrowLeft')go(cur-1);
+  });
+  go(0);
+})();
+</script>
+
+<script>
+(function(){
+  if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost')){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  }
+  var btn=document.getElementById('installBtn');
+  var deferred=null;
+  var standalone=window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+  var isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault();deferred=e;
+    if(!standalone)btn.hidden=false;
+  });
+  if(isIOS&&!standalone&&location.protocol==='https:')btn.hidden=false;
+  btn.addEventListener('click',function(){
+    if(deferred){
+      deferred.prompt();
+      deferred.userChoice.then(function(){deferred=null;btn.hidden=true;});
+    }else if(isIOS){
+      alert('To install: tap the Share button in Safari, then "Add to Home Screen".');
+    }
+  });
+  window.addEventListener('appinstalled',function(){deferred=null;btn.hidden=true;});
+})();
+</script>
+
+</html>
